@@ -1,5 +1,6 @@
 package it.wlp.reactor.service
 
+import it.wlp.reactor.config.IPObject
 import it.wlp.reactor.dto.Result
 import it.wlp.reactor.dto.ResultSigninDTO
 import it.wlp.reactor.entity.Profiles
@@ -33,9 +34,6 @@ class AuthService {
 
     @Autowired
     lateinit var emailSender: JavaMailSender
-
-    @Autowired
-    lateinit var hostAddress: String
 
     @Value("\${email.message}")
     lateinit var message: String
@@ -100,7 +98,7 @@ class AuthService {
             val host = InetAddress.getLocalHost().toString()
 
             simpleMailMessage.setText(
-                String.format("$text1 ${it.t2.username}$text2${it.t2.email}", hostAddress))
+                String.format("$text1 ${it.t2.username}$text2${it.t2.email}", "${IPObject.IP}:8082"))
 
             emailSender.send(simpleMailMessage)
 

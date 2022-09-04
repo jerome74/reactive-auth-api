@@ -14,7 +14,7 @@ class FilterIP: WebFilter{
 
 
     override fun filter(serverWebExchange: ServerWebExchange, webFilterChain: WebFilterChain): Mono<Void> {
-        IP = serverWebExchange.request.remoteAddress!!.address.hostAddress;
+       IPObject.IP = serverWebExchange.request.remoteAddress!!.address.hostAddress;
         return webFilterChain.filter(serverWebExchange);
     }
 }
