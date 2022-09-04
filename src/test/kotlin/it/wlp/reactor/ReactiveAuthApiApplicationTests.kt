@@ -8,6 +8,7 @@ class ReactiveAuthApiApplicationTests {
 
 	@Test
 	fun contextLoads() {
+		//VM Option : -Djasypt.encryptor.password=hope
 	}
 
 }

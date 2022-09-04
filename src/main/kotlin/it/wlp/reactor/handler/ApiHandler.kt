@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
+import java.util.function.Supplier
 
 @Component
 class ApiHandler {
@@ -68,7 +69,7 @@ class ApiHandler {
 
         return Mono.just(request.queryParam("email"))
             .switchIfEmpty(Mono.defer(this::raiseInputException))
-            .map { email -> profilesRepository.findByEmail(email.orElse("empty")) }
+            .map { email -> authService.executeConfirm(email.orElseGet(Supplier { "" })) }
             .onErrorResume { Mono.error { SimpleProcessException("Any Profile Found!") } }
             .flatMap {
                 ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)

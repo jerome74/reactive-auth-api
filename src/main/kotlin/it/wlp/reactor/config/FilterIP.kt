@@ -1,5 +1,6 @@
 package it.wlp.reactor.config
 
+import it.wlp.reactor.util.UtilCrypt
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order

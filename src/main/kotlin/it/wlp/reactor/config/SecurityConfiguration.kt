@@ -69,7 +69,7 @@ class SecurityConfiguration {
             .addFilterAt(webFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
             .authorizeExchange()
             .pathMatchers(
-                "/reactive/login","/reactive/signin"
+                "/reactive/login","/reactive/signin","/reactive/confirm"
             ).permitAll()
             .anyExchange().authenticated().and().build();
 

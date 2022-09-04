@@ -7,7 +7,7 @@ spring:
   mail:
     host: smtp.tim.it
     username: auth.service@tim.it
-    password: M4r4d0n4!
+    password: ENC(Lyx9dKoReZDVBeJHwQnU5XTVE8wjIPZ9)
     port: 587
     properties:
       mail:
