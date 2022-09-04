@@ -1,0 +1,18 @@
+[
+  {
+    "username": "wlongo",
+    "email": "wlongo@minsait.com",
+    "password": "admin123",
+    "active": 1,
+    "startdate": "2020-03-01 00:00:00.000000000",
+    "enddate": null
+  },
+  {
+    "username": "users",
+    "email": "auth.service@gmail.com",
+    "password": "users",
+    "active": 1,
+    "startdate": "2020-03-01 00:00:00.000000000",
+    "enddate": null
+  }
+]

@@ -1,0 +1,57 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: reactive-auth-api
+#--------------------------- emain ---------------------------------------------#
+  mail:
+    host: smtp.tim.it
+    username: auth.service@tim.it
+    password: M4r4d0n4!
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+#--------------------------- project-------------------------------------------#
+project:
+  signin: /api-rest/signin
+  confirm: /api-rest/confirm
+  avatar: admin
+  color: '[0.5, 0.5, 0.5, 1]'
+  from: auth.service@gmail.com
+  apidoc: /api-docs
+  swaggerui: /swagger-ui
+  loginok: login successful
+#--------------------------- emain ---------------------------------------------#
+email:
+  ok: \n\ne-mail was confirm!
+  from: auth.service@tim.it
+  message: we have sent a confirmation via email at
+  subject: auth confirm email for
+  text1: Hello
+  text2: ', please confirm your registration and activate your account click on http://%s/reactive/confirm?email='
+#--------------------------- permission ---------------------------------------#
+permission:
+  authorities:
+    useradmin: walter.longo74@gmail.com
+    admin: '[{\"name\":\"ADMIN\",\"actions\":{\"read\":\"admin:read\",\"write\":\"admin:write\",\"delete\":\"admin:delete\"}}]'
+    user: '[{\"name\":\"USER\",\"actions\":{\"read\":\"user:read\",\"write\":\"\",\"delete\":\"\"}}]'
+    access: ADMIN,USER
+#--------------------------- authentication -----------------------------------#
+authentication:
+  authsecretid: 'JpxM4e858rc673syopdWnMFb*ExeqJtUc0HJ_iOxu~jiSYu+yPdPw93OBBjF'
+  expiretime: 30000
+  key: auth
+
+  #--------------------------- auth -----------------------------------#
+auth:
+  apiKey: AIzaSyARDAkWqWZZ4a8PPCn3SdojXqrDfwVXZ2g
+
+#--------------------------- neo4j ----------------------------------#
+neo4j:
+  namedb: neo4j
+  path: '/home/jerome/Sviluppo/wlp/cypher/'
