@@ -18,6 +18,11 @@ class ApiRouter {
     }
 
     @Bean
+    fun routerProfilesFunction(handler: ApiHandler): RouterFunction<ServerResponse> = router {
+        ("/reactive/profiles").invoke { req -> handler.listProfiles(req) }
+    }
+
+    @Bean
     fun routerLoginFunction(handler: ApiHandler): RouterFunction<ServerResponse> = router {
         ("/reactive/login").invoke { req -> handler.doLogin(req) }
     }

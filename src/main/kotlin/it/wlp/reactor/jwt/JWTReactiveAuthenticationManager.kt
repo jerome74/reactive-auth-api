@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import reactor.core.publisher.Mono
 
-class JWTReactiveAuthenticationManager(val userDetailsService: ReactiveUserDetailsService, val passwordEncoder: PasswordEncoder) : ReactiveAuthenticationManager {
+open class JWTReactiveAuthenticationManager(val userDetailsService: ReactiveUserDetailsService, val passwordEncoder: PasswordEncoder) : ReactiveAuthenticationManager {
 
     val log = LogManager.getLogger(JWTReactiveAuthenticationManager::class.java);
 

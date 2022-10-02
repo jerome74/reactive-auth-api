@@ -26,22 +26,13 @@ import reactor.core.publisher.Mono
 import java.util.function.Supplier
 
 @Component
-class ApiHandler {
-
-    @Autowired
-    lateinit var usersRepository: UsersRepository
-
-    @Autowired
-    lateinit var profilesRepository: ProfilesRepository
-
-    @Autowired
-    lateinit var authService: AuthService
-
-    @Autowired
-    lateinit var repositoryReactiveAuthenticationManager: JWTReactiveAuthenticationManager
-
-    @Autowired
-    lateinit var tokenProvider: TokenProvider
+class ApiHandler(
+    var usersRepository: UsersRepository,
+    var profilesRepository: ProfilesRepository,
+    var authService: AuthService,
+    var repositoryReactiveAuthenticationManager: JWTReactiveAuthenticationManager,
+    var tokenProvider: TokenProvider
+) {
 
 
     fun listUsers(request: ServerRequest): Mono<ServerResponse> {
@@ -50,13 +41,19 @@ class ApiHandler {
             .body(usersRepository.findAll(), Users::class.java)
     }
 
+    fun listProfiles(request: ServerRequest): Mono<ServerResponse> {
+
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+            .body(profilesRepository.findAll(), Profiles::class.java)
+    }
+
 
     @Throws(ProcessingException::class)
     fun doProfile(request: ServerRequest): Mono<ServerResponse> {
 
         return Mono.just(request.queryParam("email"))
             .switchIfEmpty(Mono.defer(this::raiseInputException))
-            .map { email -> profilesRepository.findByEmail(email.orElse("empty")) }
+            .map { email -> profilesRepository.findByEmailAndActive(email.orElse("empty"), 1) }
             .onErrorResume { Mono.error { SimpleProcessException("Any Profile Found!") } }
             .flatMap {
                 ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
@@ -89,14 +86,6 @@ class ApiHandler {
             }.onErrorResume { ServerResponse.status(500).bodyValue(ResultSigninDTO(it.message!!,Result.KO)) }
     }
 
-    /*.onErrorResume(Exception.class, (e) -> {
-            e.printStackTrace();
-            return Mono.just("Error " + e.getMessage()).flatMap((s) -> {
-                return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue(new RestResponse(ErrorCode.INTERNAL_SERVER_ERROR, ErrorMessage.ERROR_DESCRIPTION));
-            });
-        });*/
-
-
     @Throws(BadCredentialsException::class)
     fun doLogin(request: ServerRequest): Mono<ServerResponse> {
 
@@ -109,7 +98,6 @@ class ApiHandler {
                 ServerResponse.ok().bodyValue(ResultTokenDTO(tokenProvider.createToken(it)));
             }
     }
-
 
     fun <T> raiseInputException(): Mono<T> {
         return Mono.error(InputException("error on input value"));

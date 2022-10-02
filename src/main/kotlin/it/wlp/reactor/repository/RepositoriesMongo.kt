@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono
 @Repository
 interface ProfilesRepository : ReactiveMongoRepository<Profiles, Int> {
     fun findByEmail(email: String): Mono<Profiles>
+    fun findByEmailAndActive(email: String, active: Int): Mono<Profiles>
 }
 
 @Repository

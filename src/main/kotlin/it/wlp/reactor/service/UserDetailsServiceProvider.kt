@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 @Service
-class UserDetailsServiceProvider : ReactiveUserDetailsService {
+open class UserDetailsServiceProvider : ReactiveUserDetailsService {
 
     @Autowired
     lateinit var usersRepository: UsersRepository

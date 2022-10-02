@@ -34,4 +34,4 @@ data class UsersDTO(
     @JsonProperty("enddate") var enddate: String?
 )
 
-data class ResultSigninDTO(@JsonProperty("message") var messageError: String, var result: Result)
+data class ResultSigninDTO(@JsonProperty("message") var messageError: String, @JsonProperty("result")  var result: Result)

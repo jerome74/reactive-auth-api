@@ -50,23 +50,25 @@ class AuthService {
     @Value("\${email.text2}")
     lateinit var text2: String
 
+    @Value("\${project.color}")
+    lateinit var color: String
+
     val log = LogManager.getLogger(AuthService::class.java.getName());
 
     @Throws(ProcessingException::class)
     fun executeConfirm(email: String): Mono<Result> {
 
-        val profileMono = profilesRepository.findByEmail(email).map {
+        return profilesRepository.findByEmail(email).flatMap {
             it.active = 1
-            profilesRepository.save(it)
-        }.doOnError { Mono.error<ProcessingException> { ProcessingException("Confirm on profile,", it) } }
-
-        val userMono = usersRepository.findByEmail(email).map {
-            it.active = 1
-            usersRepository.save(it)
-        }.doOnError { Mono.error<ProcessingException> { ProcessingException("Confirm on profile,", it) } }
-
-        return Mono.zip(profileMono, userMono).map { Result.OK }
-
+            profilesRepository.save(it).flatMap {
+                usersRepository.findByEmail(email).flatMap {
+                    it.active = 1
+                    usersRepository.save(it).map {
+                        Result.OK
+                    }
+                }
+            }
+        }.doOnError { Mono.error<ProcessingException> { ProcessingException("Confirm,", it) } }
     }
 
     @Throws(ProcessingException::class)
@@ -76,7 +78,7 @@ class AuthService {
         val profileMono = profilesRepository.insert(
             Mono.just(
                 Profiles(
-                    user.username, user.email, user.email, user.password, 0, Timestamp.from(
+                    user.username, user.email, user.username, color, 0, Timestamp.from(
                         Instant.now()
                     ), null
                 )
@@ -98,7 +100,8 @@ class AuthService {
             val host = InetAddress.getLocalHost().toString()
 
             simpleMailMessage.setText(
-                String.format("$text1 ${it.t2.username}$text2${it.t2.email}", "${IPObject.IP}:8082"))
+                String.format("$text1 ${it.t2.username}$text2${it.t2.email}", "${IPObject.IP}:8082")
+            )
 
             emailSender.send(simpleMailMessage)
 
