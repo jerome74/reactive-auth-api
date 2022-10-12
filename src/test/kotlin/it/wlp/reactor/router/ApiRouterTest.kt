@@ -10,6 +10,7 @@ import it.wlp.reactor.jwt.JWTReactiveAuthenticationManager
 import it.wlp.reactor.jwt.TokenProvider
 import it.wlp.reactor.repository.ProfilesRepository
 import it.wlp.reactor.repository.UsersRepository
+import it.wlp.reactor.repository.UsersRepositoryTest
 import it.wlp.reactor.service.AuthService
 import it.wlp.reactor.service.UserDetailsServiceProvider
 import it.wlp.reactor.util.MockitoHelper
@@ -23,7 +24,6 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository

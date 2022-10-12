@@ -10,7 +10,7 @@
     </parent>
     <groupId>it.wlp</groupId>
     <artifactId>reactor</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>reactive-auth-api</name>
     <description>reactive-auth-api project for Spring Boot</description>
 

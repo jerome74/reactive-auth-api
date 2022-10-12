@@ -13,13 +13,8 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 @Service
-open class UserDetailsServiceProvider : ReactiveUserDetailsService {
+open class UserDetailsServiceProvider(var usersRepository: UsersRepository, var configProperties: ConfigProperties) : ReactiveUserDetailsService {
 
-    @Autowired
-    lateinit var usersRepository: UsersRepository
-
-    @Autowired
-    lateinit var configProperties: ConfigProperties
 
 
     override fun findByUsername(username: String?): Mono<UserDetails> {

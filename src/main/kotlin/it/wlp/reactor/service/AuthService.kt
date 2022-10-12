@@ -24,16 +24,8 @@ import java.util.function.Consumer
 
 @Suppress("UNREACHABLE_CODE")
 @Service
-class AuthService {
+class AuthService( var usersRepository: UsersRepository, var profilesRepository: ProfilesRepository, var emailSender: JavaMailSender ) {
 
-    @Autowired
-    lateinit var usersRepository: UsersRepository
-
-    @Autowired
-    lateinit var profilesRepository: ProfilesRepository
-
-    @Autowired
-    lateinit var emailSender: JavaMailSender
 
     @Value("\${email.message}")
     lateinit var message: String
@@ -75,19 +67,12 @@ class AuthService {
     fun executeSingin(user: Users): Mono<ResultSigninDTO> {
 
 
-        val profileMono = profilesRepository.insert(
-            Mono.just(
-                Profiles(
-                    user.username, user.email, user.username, color, 0, Timestamp.from(
-                        Instant.now()
-                    ), null
-                )
-            )
-        )
-            .map { it }.take(1).single()
+        val profileMono = profilesRepository
+            .save(Profiles(user.username, user.email, user.username, color ))
             .doOnError { Mono.error<ProcessingException> { ProcessingException("Singin on profile,", it) } }
 
         val userMono = usersRepository.save(user)
+            .doOnError { Mono.error<ProcessingException> { ProcessingException("Singin on user,", it) } }
 
         return Mono.zip(profileMono, userMono).map {
 

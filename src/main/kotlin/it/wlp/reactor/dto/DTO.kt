@@ -1,6 +1,8 @@
 package it.wlp.reactor.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.sql.Timestamp
+import java.time.Instant
 
 enum class Result {
     OK,
@@ -20,7 +22,7 @@ data class ProfilesDTO(
     @JsonProperty("avatarname") var avatarname: String = "",
     @JsonProperty("avatarcolor") var avatarcolor: String = "",
     @JsonProperty("active") var active: String = "",
-    @JsonProperty("startdate") var startdate: String = "",
+    @JsonProperty("startdate") var startdate: String = Timestamp.from(Instant.now()).toString(),
     @JsonProperty("enddate") var enddate: String?
 )
 
@@ -30,7 +32,7 @@ data class UsersDTO(
     @JsonProperty("email") var email: String = "",
     @JsonProperty("password") var password: String = "",
     @JsonProperty("active") var active: String = "",
-    @JsonProperty("startdate") var startdate: String = "",
+    @JsonProperty("startdate") var startdate: String = Timestamp.from(Instant.now()).toString(),
     @JsonProperty("enddate") var enddate: String?
 )
 
